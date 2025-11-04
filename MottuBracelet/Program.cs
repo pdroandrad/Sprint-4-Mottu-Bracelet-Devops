@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MottuBracelet.Data;
 using MottuBracelet.Services;
-using Oracle.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configura a conexão com Oracle
+// Configura a conexão com SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Registra os serviços da aplicação
 builder.Services.AddScoped<ServicoMotos>();
@@ -25,9 +24,9 @@ builder.Services.AddScoped<ServicoHistoricoPatios>();
 var app = builder.Build();
 
 // Pipeline HTTP
+
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
