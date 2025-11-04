@@ -17,12 +17,14 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
 - task: Docker@2
   inputs:
     containerRegistry: 'dotnetmssqlrm558186'
     repository: 'dotnetsql'
     command: 'buildAndPush'
     Dockerfile: 'MottuBracelet/Dockerfile'
+    buildContext: 'MottuBracelet'
     tags: |
       $(Build.BuildId)
       latest
