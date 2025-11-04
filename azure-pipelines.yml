@@ -22,7 +22,7 @@ steps:
     containerRegistry: 'dotnetmssqlrm558186'
     repository: 'dotnetsql'
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: 'MottuBracelet/Dockerfile'
     tags: |
       $(Build.BuildId)
       latest
