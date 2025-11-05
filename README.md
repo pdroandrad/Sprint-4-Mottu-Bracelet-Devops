@@ -8,13 +8,7 @@ O **Mottu Bracelet** é um projeto desenvolvido para a empresa Mottu, visando o 
 - Emissão de sinais sonoros e infravermelhos acionados pelo dispositivo.
 - Integração de informações entre moto, pátio e dispositivo.
 
-Esta versão do projeto implementa uma **API RESTful** utilizando **ASP.NET Core Web API**, com foco em boas práticas:
 
-- Endpoints CRUD para as entidades **Moto**, **Dispositivo**, **Patio** e **HistoricoPatio**.
-- Paginação em listagens.
-- Suporte a **HATEOAS** (links para navegação entre recursos).
-- Status codes HTTP adequados.
-- Documentação automática via **Swagger/OpenAPI**.
 ---
 
 ## 👨‍💻 Integrantes
@@ -201,3 +195,4 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
   "dataMovimentacao": "2025-09-18T10:00:00"
 }
 ```
+
