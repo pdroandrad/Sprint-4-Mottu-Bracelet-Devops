@@ -2,12 +2,14 @@
 
 ## 📌 Descrição do Projeto
 
-O **Mottu Bracelet** é um projeto desenvolvido para a empresa Mottu, visando o gerenciamento eficiente de motos nos pátios de manutenção. Cada moto recebe um bracelete que se comunica com o aplicativo, permitindo:
+O **Mottu Bracelet** é uma aplicação desenvolvida para auxiliar a empresa **Mottu** no gerenciamento e localização de motos nos pátios de manutenção.  
+Cada motocicleta possui um dispositivo (“bracelete”) que permite:
 
-- Localização rápida da moto no pátio.
-- Emissão de sinais sonoros e infravermelhos acionados pelo dispositivo.
-- Integração de informações entre moto, pátio e dispositivo.
+✅ Localização rápida da moto no pátio  
+✅ Emissão de alertas sonoros e infravermelhos  
+✅ Armazenamento do histórico de movimentações da moto  
 
+A solução expõe uma **API REST em .NET 8**, com integração a um **banco de dados Azure SQL**, e deploy automatizado via **Azure DevOps**, utilizando **Docker** e **Azure**
 
 ---
 
@@ -21,58 +23,20 @@ O **Mottu Bracelet** é um projeto desenvolvido para a empresa Mottu, visando o 
 
 ## 🚀 Tecnologias Utilizadas
 
-- ASP.NET Core 8.0 Web API  
-- C#  
-- Entity Framework Core  
-- Banco de Dados Oracle  
-- Swagger / OpenAPI  
-- JSON  
-- Visual Studio 2022 ou superior  
+- .NET 8 – ASP.NET Web API
+- C#
+- Entity Framework Core
+- Azure SQL Database
+- Docker
+- Azure DevOps (CI/CD)
+- Azure Web App
+- Swagger / OpenAPI
 
 ---
 
-## 📂 Instalação e Execução
-
-### Pré-requisitos
-
-- .NET 8.0 ou superior  
-- Visual Studio 2022 ou superior  
-- Acesso ao banco de dados Oracle com usuário e senha válidos  
-
-### Executando o projeto
-
-1. Clone o repositório:
-
-   ```
-   git clone https://github.com/pdroandrad/Sprint-3-Mottu-Bracelet-CSharp
-   ```
-
-2. Abra o projeto no Visual Studio.
-
-3. Verifique se a string de conexão no `appsettings.json` está correta:
-
-  ```
-  "ConnectionStrings": {
-  "DefaultConnection": "Data Source=oracle.fiap.com.br:1521/orcl; User Id='seu-usuario'; Password='sua-senha';"
-}
-```
-
-4. Rode a aplicação clicando no botão de execução com o protocolo HTTPS selecionado. O Swagger será iniciado automaticamente com os endpoints disponíveis.
-
-### 💡 Justificativa das Entidades
-
-Escolhemos estas entidades para representar o domínio do sistema MottuBracelet de forma completa:
-
-- **Moto:** representa cada moto que entra no pátio e precisa ser rastreada.
-- **Dispositivo:** representa o bracelete acoplado à moto, responsável por sinais sonoros e infravermelhos.
-- **Patio:** representa os locais onde as motos são armazenadas ou mantidas.
-- **HistoricoPatio:** registra os movimentos das motos entre pátios, garantindo rastreabilidade e integridade dos dados.
-
-Essas entidades permitem um modelo consistente para gerenciar operações de localização, manutenção e histórico de forma eficiente.
-
 ## 📡 Endpoints da API
 
-### 🔧 MotoController
+### 🔧 Moto
 
 | Método | Endpoint             | Descrição                                        |
 |--------|----------------------|--------------------------------------------------|
@@ -84,7 +48,7 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
 
 ---
 
-### 🔧 DispositivoController
+### 🔧 Dispositivo
 
 | Método | Endpoint                  | Descrição                                         |
 |--------|---------------------------|--------------------------------------------------|
@@ -96,7 +60,7 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
 
 ---
 
-### 🔧 PatioController
+### 🔧 Patio
 
 | Método | Endpoint             | Descrição                                         |
 |--------|----------------------|--------------------------------------------------|
@@ -108,7 +72,7 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
 
 ---
 
-### 🔧 HistoricoPatioController
+### 🔧 HistoricoPatio
 
 | Método | Endpoint                    | Descrição                                                |
 |--------|-----------------------------|----------------------------------------------------------|
@@ -117,19 +81,23 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
 | POST   | `/api/HistoricoPatio`       | Cria um novo registro de movimentação de moto entre pátios. |
 
 
-## 📦 Exemplos de Payloads
-
-> **Observação:** Para respeitar os relacionamentos entre as tabelas, crie os objetos na seguinte ordem:  
-> `Patio` → `Dispositivo` → `Moto` → `HistoricoPatio`
-
-### 🔹 Patio
+## 📦 Exemplo de Payload para teste
 
 **POST /api/Patio**
 
 ```json
 {
   "nome": "Patio Central",
-  "endereco": "Rua das Flores, 123"
+  "capacidadeMaxima": 50,
+  "administradorResponsavel": "João Silva",
+  "endereco": {
+    "logradouro": "Rua das Flores",
+    "numero": 123,
+    "cep": "12345-678",
+    "complemento": "Próximo ao supermercado",
+    "cidade": "São Paulo",
+    "pais": "Brasil"
+  }
 }
 ```
 
@@ -137,62 +105,19 @@ Essas entidades permitem um modelo consistente para gerenciar operações de loc
 
 ```json
 {
-  "nome": "Patio Leste",
-  "endereco": "Avenida das Palmeiras, 456"
+  "nome": "Patio Norte",
+  "capacidadeMaxima": 100,
+  "administradorResponsavel": "João Silva",
+  "endereco": {
+    "logradouro": "Rua das Flores",
+    "numero": 123,
+    "cep": "12345-678",
+    "complemento": "Próximo ao supermercado",
+    "cidade": "São Paulo",
+    "pais": "Brasil"
+  }
 }
 ```
 
-### 🔹 Dispositivo
 
-**POST /api/Dispositivo**
-
-```json
-{
-  "codigo": "BR-001",
-  "status": "Ativo"
-}
-```
-
-**PUT /api/Dispositivo/{id}**
-
-```json
-{
-  "codigo": "BR-002",
-  "status": "Inativo"
-}
-```
-
-### 🔹 Moto
-
-**POST /api/Moto**
-
-```json
-{
-  "imei": "123456789012345",
-  "placa": "ABC-1234",
-  "dispositivoId": 1
-}
-```
-
-**PUT /api/Moto/{id}**
-
-```json
-{
-  "imei": "987654321098765",
-  "placa": "XYZ-9876",
-  "dispositivoId": 1
-}
-```
-
-### 🔹 HistoricoPatio
-
-**POST /api/HistoricoPatio**
-
-```json
-{
-  "motoId": 1,
-  "patioId": 2,
-  "dataMovimentacao": "2025-09-18T10:00:00"
-}
-```
 
